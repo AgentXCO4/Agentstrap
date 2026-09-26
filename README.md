@@ -44,7 +44,7 @@ dotnet build .\Agentstrap.sln -c Release --no-restore
 To publish a self-contained x64 executable:
 
 ```powershell
-dotnet publish .\Bloxstrap\Bloxstrap.csproj `
+dotnet publish .\Agentstrap\Agentstrap.csproj `
   -c Release -r win-x64 --self-contained true `
   -p:PublishSingleFile=true `
   -p:IncludeNativeLibrariesForSelfExtract=true
@@ -53,10 +53,10 @@ dotnet publish .\Bloxstrap\Bloxstrap.csproj `
 The executable is written to:
 
 ```text
-Bloxstrap\bin\Release\net10.0-windows\win-x64\publish\Agentstrap.exe
+Agentstrap\bin\Release\net10.0-windows\win-x64\publish\Agentstrap.exe
 ```
 
-The application source remains in the historical `Bloxstrap` directory; the built product and assembly are named Agentstrap.
+The application source and built product are named Agentstrap.
 
 ## Fork and contribute
 
@@ -66,7 +66,7 @@ The application source remains in the historical `Bloxstrap` directory; the buil
 4. Restore and build using the commands above. Keep the existing `wpfui` submodule initialized.
 5. Commit and push your branch, then open a pull request against the repository you intend to contribute to.
 
-Before publishing your own fork, verify the repository, support, download, and update endpoints in `Bloxstrap/App.xaml.cs` and the GitHub workflows. For tagged releases, configure an Agentstrap-owned SignPath project in the repository's Actions variables: `SIGNPATH_ORGANIZATION_ID`, `SIGNPATH_PROJECT_SLUG`, `SIGNPATH_SIGNING_POLICY`, and `SIGNPATH_ARTIFACT_CONFIGURATION`. Store its API token as the `SIGNPATH_API_TOKEN` secret. Do not reuse another project's credentials. Update the version in `Bloxstrap/Bloxstrap.csproj` for each release. The workflow builds on `v*` tags and creates a draft GitHub release after signing succeeds.
+Before publishing your own fork, verify the repository, support, download, and update endpoints in `Agentstrap/App.xaml.cs` and the GitHub workflows. For tagged releases, configure an Agentstrap-owned SignPath project in the repository's Actions variables: `SIGNPATH_ORGANIZATION_ID`, `SIGNPATH_PROJECT_SLUG`, `SIGNPATH_SIGNING_POLICY`, and `SIGNPATH_ARTIFACT_CONFIGURATION`. Store its API token as the `SIGNPATH_API_TOKEN` secret. Do not reuse another project's credentials. Update the version in `Agentstrap/Agentstrap.csproj` for each release. The workflow builds on `v*` tags and creates a draft GitHub release after signing succeeds.
 
 ## Report a bug
 
