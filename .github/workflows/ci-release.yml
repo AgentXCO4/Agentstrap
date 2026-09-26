@@ -1,4 +1,4 @@
-﻿name: CI (Release)
+name: CI (Release)
 on: [push, pull_request]
 
 permissions:
@@ -81,7 +81,7 @@ jobs:
         run: mv release/Agentstrap.exe Agentstrap-${{ github.ref_name }}-win-x64.exe
 
       - name: Create release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           draft: true
           files: release/Agentstrap-${{ github.ref_name }}-win-x64.exe
@@ -129,7 +129,7 @@ jobs:
         run: mv release/Agentstrap.exe Agentstrap-${{ github.ref_name }}-win-x64.exe
 
       - name: Create release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           draft: true
           files: release/Agentstrap-${{ github.ref_name }}-win-x64.exe
