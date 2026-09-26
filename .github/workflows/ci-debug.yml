@@ -1,4 +1,4 @@
-name: CI (Debug)
+﻿name: CI (Debug)
 on: [push, pull_request]
 
 jobs:
@@ -8,23 +8,26 @@ jobs:
     steps:
     - uses: actions/checkout@v6
       with:
-        submodules: true
+        submodules: recursive
 
     - uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: '6.0.x'
+        dotnet-version: |
+          6.0.x
+          10.0.x
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore .\Agentstrap.sln
 
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build .\Agentstrap.sln -c Debug --no-restore
 
     - name: Publish
-      run: dotnet publish -p:PublishSingleFile=true -p:CommitHash=${{ github.sha }} -p:CommitRef=${{ github.ref_type }}/${{ github.ref_name }} -r win-x64 -c Debug --self-contained false .\Bloxstrap\Bloxstrap.csproj
+      run: dotnet publish .\Bloxstrap\Bloxstrap.csproj -r win-x64 -c Debug --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:CommitHash=${{ github.sha }} -p:CommitRef=${{ github.ref_type }}/${{ github.ref_name }} -o .\artifacts\debug
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v7
       with:
-        name: Bloxstrap (Debug) (${{ github.sha }})
-        path: .\Bloxstrap\bin\Debug\net6.0-windows\win-x64\publish\*
+        name: Agentstrap-Debug-win-x64
+        path: .\artifacts\debug\Agentstrap.exe
+        if-no-files-found: error

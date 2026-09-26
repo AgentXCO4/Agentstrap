@@ -1,0 +1,114 @@
+<ui:UiPage x:Class="Agentstrap.UI.Elements.Settings.Pages.DeploymentPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:controls="clr-namespace:Agentstrap.UI.Elements.Controls"
+      xmlns:models="clr-namespace:Agentstrap.UI.ViewModels.Settings"
+      mc:Ignorable="d"
+      d:DataContext="{d:DesignInstance Type=models:DeploymentViewModel}"
+      d:DesignHeight="800" d:DesignWidth="900"
+      Title="DeploymentPage"
+      Scrollable="False">
+    <TabControl Margin="0,0,12,8">
+        <TabControl.Resources>
+            <Style TargetType="TabItem">
+                <Setter Property="Padding" Value="14,9" />
+                <Setter Property="Margin" Value="0,0,4,0" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TabItem">
+                            <Border Background="Transparent" Padding="{TemplateBinding Padding}">
+                                <ContentPresenter ContentSource="Header" VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </TabControl.Resources>
+        <TabItem Header="General">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="8,12,10,16">
+                    <TextBlock Text="Roblox deployment" FontSize="21" FontWeight="SemiBold" />
+                    <TextBlock Text="Choose and verify the Roblox release channel Agentstrap should use." Margin="0,3,0,8" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    <controls:OptionControl Header="Channel override" Description="Leave blank to follow Roblox's existing launch or registry channel. Explicit channel launch links take precedence over this value.">
+                        <ui:TextBox Width="240" Text="{Binding DeploymentChannel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="production" />
+                    </controls:OptionControl>
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <ui:Button Content="Check channel" Icon="Search24" Command="{Binding CheckDeploymentCommand}" />
+                        <ui:Button Content="Save override" Icon="Save24" Margin="8,0,0,0" Appearance="Primary" Command="{Binding ApplyDeploymentChannelCommand}" />
+                        <ui:Button Content="Clear" Icon="Delete16" Margin="8,0,0,0" Command="{Binding ClearDeploymentChannelCommand}" />
+                    </StackPanel>
+                    <TextBlock Text="{Binding DeploymentStatus}" Margin="2,10,2,0" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    <controls:OptionControl Margin="0,18,0,0" Header="Confirm launches" Description="Ask before opening Roblox from a launch link.">
+                        <ui:ToggleSwitch IsChecked="{Binding ConfirmLaunches, Mode=TwoWay}" />
+                    </controls:OptionControl>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
+        <TabItem Header="Advanced General">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="8,12,10,16">
+                    <TextBlock Text="Advanced deployment behavior" FontSize="21" FontWeight="SemiBold" />
+                    <TextBlock Text="These options affect how Agentstrap maintains the Roblox installation." Margin="0,3,0,8" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    <controls:OptionControl Header="Background updates" Description="Allow Agentstrap to update Roblox files in the background when Roblox is not running.">
+                        <ui:ToggleSwitch IsChecked="{Binding BackgroundUpdates, Mode=TwoWay}" />
+                    </controls:OptionControl>
+                    <controls:OptionControl Header="Force Roblox reinstall" Description="Request a clean Roblox client install the next time Agentstrap launches it.">
+                        <controls:OptionControl.Style><Style TargetType="controls:OptionControl"><Style.Triggers><DataTrigger Binding="{Binding IsRobloxInstallationMissing}" Value="True"><Setter Property="IsEnabled" Value="False" /></DataTrigger></Style.Triggers></Style></controls:OptionControl.Style>
+                        <ui:ToggleSwitch IsChecked="{Binding ForceRobloxReinstallation, Mode=TwoWay}" />
+                    </controls:OptionControl>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
+        <TabItem Header="Agentstrap Matchmaker">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="8,12,10,16">
+                    <TextBlock Text="Agentstrap Matchmaker" FontSize="21" FontWeight="SemiBold" />
+                    <TextBlock Text="Find a public server for an experience and launch it through Roblox's normal URI flow. No process inspection or client modification is used." Margin="0,3,0,8" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    <controls:OptionControl Header="Enable Agentstrap Matchmaker" Description="Enables the server search action below. It is off by default.">
+                        <ui:ToggleSwitch IsChecked="{Binding AgentstrapMatchmakerEnabled, Mode=TwoWay}" />
+                    </controls:OptionControl>
+                    <controls:OptionControl Header="Experience" Description="Enter a numeric place ID or a Roblox experience URL.">
+                        <ui:TextBox Width="300" Text="{Binding AgentstrapMatchmakerPlaceId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Place ID or roblox.com/games/..." />
+                    </controls:OptionControl>
+                    <controls:OptionControl Header="Prefer low-population servers" Description="When enabled, choose the eligible public server with the fewest current players. Roblox does not expose server region or ping in this list.">
+                        <ui:ToggleSwitch IsChecked="{Binding AgentstrapMatchmakerPreferLowPopulation, Mode=TwoWay}" />
+                    </controls:OptionControl>
+                    <controls:OptionControl Header="Minimum open slots" Description="Ignore public servers that do not have at least this many free player slots.">
+                        <ComboBox Width="160" Padding="10,5,10,5" ItemsSource="{Binding MinimumFreeSlotOptions}" SelectedItem="{Binding AgentstrapMatchmakerMinimumFreeSlots, Mode=TwoWay}" />
+                    </controls:OptionControl>
+                    <ui:Button Content="Find and launch server" Icon="Play24" Appearance="Primary" Margin="0,14,0,0" Command="{Binding FindAndLaunchServerCommand}" IsEnabled="{Binding AgentstrapMatchmakerEnabled}" />
+                    <Border Margin="0,12,0,0" Padding="12" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1">
+                        <TextBlock Text="{Binding AgentstrapMatchmakerStatus}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
+        <TabItem Header="Roblox">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="8,12,10,16">
+                    <TextBlock Text="Roblox client" FontSize="21" FontWeight="SemiBold" />
+                    <TextBlock Text="Configure how the Roblox process is started by Agentstrap." Margin="0,3,0,8" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    <controls:OptionControl Header="Roblox process priority" Description="Choose the Windows process priority applied after launch. Realtime requests administrator approval and may reduce responsiveness for other applications.">
+                        <ComboBox Width="220" Padding="10,5,10,5" ItemsSource="{Binding ProcessPriorityOptions}" SelectedItem="{Binding RobloxProcessPriority, Mode=TwoWay}" />
+                    </controls:OptionControl>
+                    <TextBlock Text="Roblox tools" FontSize="18" FontWeight="Medium" Margin="0,18,0,2" />
+                    <TextBlock Text="Repair launch-link registration or open the Roblox client logs folder." Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <ui:Button Content="Repair Roblox links" Icon="LinkToolbox20" Command="{Binding RepairRobloxLinkCommand}" />
+                        <ui:Button Content="Open Roblox logs" Icon="DocumentSearch20" Margin="8,0,0,0" Command="{Binding OpenRobloxLogsCommand}" />
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+    </TabControl>
+</ui:UiPage>

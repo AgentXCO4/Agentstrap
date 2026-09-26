@@ -348,3 +348,10 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Local feature-patch backups and workspace-only helper scripts
+/.priority-feature-backup/
+/.skybox-feature-backup/
+/apply-priority-feature.ps1
+/apply-skybox-feature.ps1
+/%SystemDrive%/

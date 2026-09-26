@@ -1,4 +1,4 @@
-name: Publish to Winget
+﻿name: Publish to Winget
 
 on:
   release:
@@ -7,8 +7,25 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
+      - name: Check WinGet configuration
+        id: config
+        shell: bash
+        run: |
+          if [[ -n "$WINGET_PACKAGE_ID" && -n "$WINGET_TOKEN" ]]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "WinGet publication skipped: configure WINGET_PACKAGE_ID and WINGET_TOKEN in repository settings."
+          fi
+        env:
+          WINGET_PACKAGE_ID: ${{ vars.WINGET_PACKAGE_ID }}
+          WINGET_TOKEN: ${{ secrets.WINGET_TOKEN }}
+
       - uses: vedantmgoyal9/winget-releaser@main
+        if: steps.config.outputs.enabled == 'true'
         with:
-          identifier: pizzaboxer.Bloxstrap
+          identifier: ${{ vars.WINGET_PACKAGE_ID }}
           token: ${{ secrets.WINGET_TOKEN }}
+

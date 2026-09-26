@@ -1,6 +1,6 @@
-import re, glob
+﻿import re, glob
 
-directory = input("Enter project path (the one containing Bloxstrap.csproj): ")
+directory = input("Enter project path (the one containing Agentstrap.csproj): ")
 
 existing = []
 found = []
