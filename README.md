@@ -22,6 +22,10 @@ The app is published as a self-contained x64 Windows executable, so users do not
 
 Agentstrap does not inject code into Roblox or modify Roblox process memory. Follow Roblox's terms and applicable platform policies when using client features.
 
+## Updates
+I usually update Agentstrap monthly, but if i'm feeling good i'll update it without warning sometimes!
+
+
 ## Requirements
 
 - Windows 10 or Windows 11, x64.
