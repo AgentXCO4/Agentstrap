@@ -1,4 +1,4 @@
-# Agentstrap
+# Agentstrap - a modern Roblox bootstrapper focused on customization, performance, and control.
 
 Agentstrap is a Windows Roblox bootstrapper built with **C#, WPF, XAML, and .NET 10**. It provides an installer and launcher plus settings for Roblox startup, appearance, mods, integrations, and other client-side options.
 
