@@ -89,3 +89,6 @@ For help using inherited features, the upstream [Bloxstrap help pages](https://b
 ## Third-party components
 
 Agentstrap uses the [WPF UI](https://github.com/lepoco/wpfui) controls through the `wpfui` submodule. See [LICENSE](LICENSE) and the licenses included with dependencies for applicable terms.
+
+
+[Agentstrap - Your Roblox, Your Way.](https://github.com/AgentXCO4/Agentstrap)
